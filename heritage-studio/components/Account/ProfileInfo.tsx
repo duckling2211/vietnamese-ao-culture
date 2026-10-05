@@ -1,0 +1,1 @@
+export default function ProfileInfo() { return <div className="p-4 bg-white shadow rounded-xl">Profile Info</div>; }
