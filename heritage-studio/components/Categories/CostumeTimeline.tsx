@@ -10,8 +10,8 @@ interface CostumeTimelineProps {
 }
 
 export default function CostumeTimeline({ onSelectCostume }: CostumeTimelineProps) {
-  // Sort costumes chronologically
-  const timelineCostumes = [...EXTENDED_COSTUMES].sort((a, b) => a.period_order - b.period_order);
+  // Sort costumes chronologically (newest first: Áo dài first, Áo giao lĩnh last)
+  const timelineCostumes = [...EXTENDED_COSTUMES].sort((a, b) => b.period_order - a.period_order);
 
   return (
     <div className="w-full py-6">
@@ -25,14 +25,14 @@ export default function CostumeTimeline({ onSelectCostume }: CostumeTimelineProp
           Lược Sử Tiến Trình Biến Đổi Y Phục Việt Nam
         </h2>
         <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
-          Từ vạt áo Giao Lĩnh uy nghi thời Đại Việt đến sự ra đời của Áo Ngũ Thân Đàng Trong, rồi kết tinh thành tà Áo Dài thướt tha hiện đại — một hành trình khẳng định bản sắc văn hóa kiên cường của dân tộc.
+          Từ tà Áo Dài thướt tha hiện đại, ngược dòng thời gian qua Áo Ngũ Thân Đàng Trong, trở về với vạt áo Giao Lĩnh uy nghi thời Đại Việt — một hành trình khẳng định bản sắc văn hóa kiên cường của dân tộc.
         </p>
       </div>
 
       {/* Vertical Connected Timeline */}
       <div className="relative max-w-4xl mx-auto">
         {/* Continuous Center Line */}
-        <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-1 bg-gradient-to-b from-teal-500 via-amber-500 to-rose-500 -translate-x-1/2 rounded-full opacity-40 dark:opacity-30" />
+        <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-1 bg-gradient-to-b from-rose-500 via-amber-500 to-teal-500 -translate-x-1/2 rounded-full opacity-40 dark:opacity-30" />
 
         <div className="space-y-12">
           {timelineCostumes.map((costume, index) => {

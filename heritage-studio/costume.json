@@ -75,5 +75,61 @@
     "collar_type": "Cổ đứng, cổ trụ hoặc biến tấu tròn/tim",
     "key_features": "Ôm sát thân hình, 2 tà trước-sau xẻ cao tới eo, mặc kèm quần lụa ống rộng",
     "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_d%C3%A0i"
+  },
+  {
+    "id": "vien_linh",
+    "name": "Áo Viên lĩnh",
+    "other_names": ["Bàn lĩnh", "Đoàn lĩnh"],
+    "era": "Thời Lý, Trần, Lê (đặc biệt phổ biến thời Hậu Lê)",
+    "gender": "Cả nam và nữ (chủ yếu là nam)",
+    "category": "Cổ phục / Triều phục / Quan phục",
+    "collar_type": "Cổ tròn (viên lĩnh)",
+    "key_features": "Cổ tròn ôm sát chân cổ cài khuy sang vai phải, vạt áo rộng phủ qua gối, trước ngực thường mang bổ tử để phân định phẩm hàm quan lại",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/Vi%C3%AAn_l%C4%A9nh"
+  },
+  {
+    "id": "doi_kham",
+    "name": "Áo Đối khâm",
+    "other_names": ["Áo vạt song song", "Bối tử"],
+    "era": "Thời Lý, Trần, Lê, Nguyễn",
+    "gender": "Cả nam và nữ (rất phổ biến ở nữ giới)",
+    "category": "Cổ phục / Áo khoác ngoài",
+    "collar_type": "Cổ mở dọc (đối khâm)",
+    "key_features": "Hai vạt trước buông thẳng song song, không cài khuy hoặc buộc dây trang trí, mặc khoác phủ bên ngoài giao lĩnh hoặc yếm",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C4%90%E1%BB%91i_kh%C3%A2m"
+  },
+  {
+    "id": "ao_yem",
+    "name": "Áo Yếm",
+    "other_names": ["Yếm đào", "Yếm cổ xây", "Yếm cánh nhạn"],
+    "era": "Thời Lý đến đầu thế kỷ 20",
+    "gender": "Nữ",
+    "category": "Nội y truyền thống / Dân gian",
+    "collar_type": "Cổ khoét tròn (cổ xây) hoặc cổ khoét chữ V (cổ nhạn)",
+    "key_features": "Tấm vải vuông hoặc hình thoi che ngực, hở lưng trần, buộc dây quanh cổ và sau lưng; là lớp lót không thể thiếu khi mặc áo tứ thân, giao lĩnh hay áo cánh",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/Y%E1%BA%BFm"
+  },
+  {
+    "id": "ao_canh",
+    "name": "Áo Cánh",
+    "other_names": ["Áo cánh nâu sồng"],
+    "era": "Dân gian Bắc Bộ và Bắc Trung Bộ (thế kỷ 19 đến cận đại)",
+    "gender": "Cả nam và nữ",
+    "category": "Dân gian / Lao động",
+    "collar_type": "Cổ tròn xẻ ngực",
+    "key_features": "Áo ngắn ngang hông, cúc cài thẳng giữa ngực, may từ vải thô nhuộm củ nâu hoặc chàm; là trang phục lao động đặc trưng của vùng đồng bằng Bắc Bộ (đối trọng với Áo bà ba Nam Bộ)",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_c%C3%A1nh"
+  },
+  {
+    "id": "long_bao",
+    "name": "Long bào",
+    "other_names": ["Hoàng bào", "Ngự bào"],
+    "era": "Thời Lý, Trần, Lê, Nguyễn",
+    "gender": "Nam (Hoàng đế, Thái tử)",
+    "category": "Hoàng gia / Đại triều phục",
+    "collar_type": "Cổ tròn (Viên lĩnh thời Lê) hoặc Cổ đứng chéo vạt (thời Nguyễn)",
+    "key_features": "Màu chính vàng (hoàng sắc), thêu hoa văn rồng 5 móng, mây sóng nước tam giang bằng chỉ vàng kim tuyến, mặc cùng mũ Miện hoặc Cửu Long triều thiên",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/Long_b%C3%A0o"
   }
 ]
+
