@@ -4,7 +4,7 @@ export default function HomePage() {
   const navCards = [
     { title: 'Interactive Map', desc: 'Explore cultural heritage regions', link: '/map', bg: 'bg-amber-100' },
     { title: 'Dress-Up Studio', desc: 'AI-powered outfit styling engine', link: '/studio', bg: 'bg-emerald-100' },
-    { title: 'Cultural Assets', desc: 'Browse clothes, events, and avatars', link: '/categories', bg: 'bg-blue-100' },
+    { title: 'Costume Info', desc: 'Look up and learn about Vietnamese costume culture', link: '/categories', bg: 'bg-blue-100' },
     { title: 'My Account', desc: 'View saved outfits and profile', link: '/account', bg: 'bg-purple-100' },
   ];
 

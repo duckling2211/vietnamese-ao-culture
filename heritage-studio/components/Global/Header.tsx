@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 // We rename Map to MapIcon here to prevent the JavaScript conflict
-import { Menu, Settings, User, Map as MapIcon, Shirt, LayoutGrid } from 'lucide-react';
+import { Menu, Settings, User, Map as MapIcon, Shirt, BookOpen } from 'lucide-react';
 import SettingsModal from './SettingsModal';
 
 export default function Header() {
@@ -20,7 +20,7 @@ export default function Header() {
   const navLinks: NavLink[] = [
     { name: 'Map', href: '/map', icon: <MapIcon className="w-4 h-4 mr-2" /> },
     { name: 'Studio', href: '/studio', icon: <Shirt className="w-4 h-4 mr-2" /> },
-    { name: 'Database', href: '/categories', icon: <LayoutGrid className="w-4 h-4 mr-2" /> },
+    { name: 'Info', href: '/categories', icon: <BookOpen className="w-4 h-4 mr-2" /> },
   ];
 
   return (

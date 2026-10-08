@@ -1,0 +1,79 @@
+[
+  {
+    "id": "giao_linh",
+    "name": "Áo Giao lĩnh",
+    "other_names": ["Tràng vạt", "Giao lãnh"],
+    "era": "Thời Lý, Trần, Lê, Nguyễn",
+    "gender": "Cả nam và nữ",
+    "category": "Cổ phục / Lễ phục",
+    "collar_type": "Cổ chéo vạt (giao lĩnh)",
+    "key_features": "Cổ áo chéo sang nách phải, tay áo rộng hoặc thụng, mặc phủ ngoài",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/Giao_l%C4%A9nh"
+  },
+  {
+    "id": "nhat_binh",
+    "name": "Áo Nhật bình",
+    "other_names": ["Áo phi tần triều Nguyễn"],
+    "era": "Triều Nguyễn (1802–1945)",
+    "gender": "Nữ",
+    "category": "Hoàng gia / Lễ phục cung đình",
+    "collar_type": "Cổ hình chữ nhật viền bản lớn",
+    "key_features": "Hoa văn thêu tinh xảo (phụng, hoa sen), dải ngũ sắc ở cửa tay, đi kèm khăn vành dây",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_Nh%E1%BA%ADt_b%C3%ACnh"
+  },
+  {
+    "id": "ngu_than",
+    "name": "Áo Ngũ thân",
+    "other_names": ["Ngũ thân lập lĩnh", "Áo chẽn"],
+    "era": "Thời chúa Nguyễn Phúc Khoát đến triều Nguyễn",
+    "gender": "Cả nam và nữ",
+    "category": "Thường phục / Tiền thân Áo dài",
+    "collar_type": "Cổ đứng (lập lĩnh)",
+    "key_features": "Gồm 5 thân ghép lại, cài 5 cúc tượng trưng cho ngũ thường, tay chẽn gọn gàng",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_ng%C5%A9_th%C3%A2n"
+  },
+  {
+    "id": "ao_tac",
+    "name": "Áo Tấc",
+    "other_names": ["Ngũ thân tay thụng", "Áo thụng", "Áo lễ"],
+    "era": "Triều Nguyễn đến cận đại",
+    "gender": "Cả nam và nữ",
+    "category": "Lễ phục truyền thống",
+    "collar_type": "Cổ đứng (lập lĩnh)",
+    "key_features": "Dáng áo ngũ thân nhưng ống tay rộng đúng 1 tấc (~10cm), dài buông thụng, mặc cùng khăn đóng",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_t%E1%BA%A5c"
+  },
+  {
+    "id": "tu_than",
+    "name": "Áo Tứ thân",
+    "other_names": ["Áo tứ điên"],
+    "era": "Dân gian Bắc Bộ (trước thế kỷ 20)",
+    "gender": "Nữ",
+    "category": "Dân gian truyền thống",
+    "collar_type": "Cổ mở / không cúc",
+    "key_features": "4 vạt buông dài (2 sau khâu liền, 2 trước buộc thắt), mặc lót yếm đào, nón quai thao",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_t%E1%BB%A9_th%C3%A2n"
+  },
+  {
+    "id": "ao_ba_ba",
+    "name": "Áo Bà ba",
+    "other_names": [],
+    "era": "Nam Bộ từ thế kỷ 19 đến nay",
+    "gender": "Cả nam và nữ",
+    "category": "Dân dã / Nam Bộ",
+    "collar_type": "Cổ tròn xẻ giữa",
+    "key_features": "Khuy cài thẳng giữa ngực, xẻ tà 2 bên hông, 2 túi trước, đi kèm nón lá và khăn rằn",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_b%C3%A0_ba"
+  },
+  {
+    "id": "ao_dai",
+    "name": "Áo dài",
+    "other_names": ["Áo dài Le Mur", "Áo dài cách tân"],
+    "era": "Thập niên 1930 đến nay",
+    "gender": "Cả nam và nữ (phổ biến nhất ở nữ)",
+    "category": "Quốc phục hiện đại",
+    "collar_type": "Cổ đứng, cổ trụ hoặc biến tấu tròn/tim",
+    "key_features": "Ôm sát thân hình, 2 tà trước-sau xẻ cao tới eo, mặc kèm quần lụa ống rộng",
+    "wikipedia_url": "https://vi.wikipedia.org/wiki/%C3%81o_d%C3%A0i"
+  }
+]
