@@ -96,7 +96,7 @@ Follow these steps to set up the development environment on your local machine.
 1.  **Clone the repository**
     ```bash
     git clone https://github.com/duckling2211/vietnamese-ao-culture
-    cd vietnamese-ao-culture
+    cd vietnamese-ao-culture/heritage-studio
     ```
 
 2.  **Install dependencies**
