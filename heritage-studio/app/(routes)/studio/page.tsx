@@ -1,22 +1,11 @@
-import StudioLayout from '@/components/Studio/StudioLayout';
-import InputPanel from '@/components/Studio/InputPanel';
-import AvatarCanvas from '@/components/Studio/AvatarCanvas';
-import StudioControls from '@/components/Studio/StudioControls';
-import ComparisonSidebar from '@/components/Studio/ComparisonSidebar';
+import { Metadata } from 'next';
+import StudioContainer from '@/components/Studio/StudioContainer';
+
+export const metadata: Metadata = {
+  title: 'Heritage Studio • AI Thẩm Định & Thử Cổ Phục Việt Nam | HeritageStudio',
+  description: 'Studio AI: Thẩm định chuẩn mực cổ phục Việt Nam kết hợp phong cách thời thượng Gen Z, và tạo ảnh chân dung mặc thử cổ phục ảo từ kho tàng di sản y phục.',
+};
 
 export default function DressUpStudioPage() {
-  return (
-    <div className="h-[calc(100vh-64px)] w-full overflow-hidden bg-stone-100 dark:bg-stone-950">
-      {/* 
-        StudioLayout acts as a CSS Grid manager to position 
-        the AI text input, the canvas, controls, and sidebars.
-      */}
-      <StudioLayout
-        leftSidebar={<InputPanel />}
-        mainCanvas={<AvatarCanvas />}
-        bottomControls={<StudioControls />}
-        rightSidebar={<ComparisonSidebar />}
-      />
-    </div>
-  );
+  return <StudioContainer />;
 }
