@@ -31,6 +31,10 @@ export interface EvaluateResult {
 
 export interface TryOnResult {
   generatedImageUrl: string;
+  referenceCostumeUrl: string;
+  userFaceDetected: boolean;
+  faceBox?: [number, number, number, number] | null;
+  faceAnchor?: { x: number; y: number; w: number; h: number };
   costume: {
     id: string;
     name: string;
@@ -203,22 +207,30 @@ Người dùng đã tải lên ảnh chân dung của họ và muốn mặc th�
 - Phân loại: ${costume.category}
 - Giới tính phù hợp: ${costume.gender}
 
-Hãy phân tích đặc điểm khuôn mặt, tóc, phong thái, giới tính của người trong ảnh.
-Sau đó thực hiện 2 nhiệm vụ:
-1. Viết một lời bình phong cách (stylist commentary) bằng tiếng Việt thật tinh tế, giải thích trang phục này tôn lên nét đẹp của họ như thế nào và ý nghĩa văn hóa của nó.
-2. Viết một prompt tiếng Anh thật chi tiết, chất lượng điện ảnh cao (8k, photorealistic cinematic portrait) để hệ thống AI sinh ảnh vẽ người này đang mặc bộ ${costume.name} chuẩn xác nhất, giữ nguyên khuôn mặt và phong thái của họ, với chất liệu vải gấm tơ tằm lộng lẫy và hậu cảnh cung đình hoặc phố cổ Việt Nam.
+Hãy phân tích kỹ đặc điểm khuôn mặt, ánh mắt, nụ cười, thần thái, dáng người của người trong ảnh.
+Sau đó thực hiện 3 nhiệm vụ quan trọng:
+1. Xác định tọa độ hộp khuôn mặt (faceBox) của người trong ảnh:
+   - "faceBox": [ymin, xmin, ymax, xmax] (mảng 4 số nguyên chuẩn hóa từ 0 đến 1000 xác định chính xác vị trí khuôn mặt).
+2. Viết một lời bình phong cách (stylist commentary) bằng tiếng Việt thật tinh tế (2-3 câu), giải thích trang phục này tôn lên nét đẹp, ngũ quan và phong thái của họ như thế nào.
+3. Viết một prompt tiếng Anh chi tiết, chất lượng điện ảnh cao (8k, photorealistic cinematic portrait) mô tả người này đang mặc bộ ${costume.name}.
 
 YÊU CẦU: Trả về DUY NHẤT một chuỗi JSON hợp lệ không có markdown bọc ngoài:
 {
+  "faceBox": [<ymin>, <xmin>, <ymax>, <xmax>],
   "stylistCommentary": "<lời nhận xét 2-3 câu bằng tiếng Việt>",
   "culturalSignificance": "<ý nghĩa lịch sử và cấu trúc cổ áo của bộ đồ>",
-  "imagePrompt": "<detailed cinematic English prompt for image generation, focusing on the person wearing authentic Vietnamese ${costume.name}, accurate collar (${costume.collar_type}), silk brocade fabric, 8k resolution, editorial lighting>"
+  "imagePrompt": "<detailed cinematic English prompt>"
 }
 `;
 
   const rawJson = await callGemini(prompt, { mimeType, base64Data: userImageBase64 }, apiKey, 'application/json');
 
-  let parsed: { stylistCommentary?: string; culturalSignificance?: string; imagePrompt?: string } = {};
+  let parsed: { 
+    faceBox?: [number, number, number, number];
+    stylistCommentary?: string; 
+    culturalSignificance?: string; 
+    imagePrompt?: string 
+  } = {};
   try {
     const cleaned = rawJson.replace(/```json\s*/gi, '').replace(/```\s*$/gi, '').trim();
     parsed = JSON.parse(cleaned);
@@ -232,11 +244,11 @@ YÊU CẦU: Trả về DUY NHẤT một chuỗi JSON hợp lệ không có markd
 
   const finalPrompt = parsed.imagePrompt || `Photorealistic portrait of Vietnamese person wearing authentic ${costume.name}, ${costume.collar_type}, silk brocade, cinematic 8k`;
 
-  // Return authentic high-definition costume portrait stored in public/costumes
-  const generatedImageUrl = `/costumes/${costume.id}.jpg`;
-
   return {
-    generatedImageUrl,
+    generatedImageUrl: `/costumes/${costume.id}.jpg`,
+    referenceCostumeUrl: `/costumes/${costume.id}.jpg`,
+    userFaceDetected: Boolean(parsed.faceBox),
+    faceBox: parsed.faceBox || null,
     costume: {
       id: costume.id,
       name: costume.name,

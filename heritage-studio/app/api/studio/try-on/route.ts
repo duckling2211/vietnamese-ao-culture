@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateVirtualTryOn } from '@/lib/gemini';
+import { compositeUserOnCostume } from '@/lib/tryon-composite';
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +21,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 1. Analyze user face, detect bounding box & generate personalized stylist commentary
     const result = await generateVirtualTryOn(image, mimeType, costumeId, apiKey);
+
+    // 2. Perform seamless face-to-costume fusion compositing
+    try {
+      const compositeDataUrl = await compositeUserOnCostume(image, costumeId, result.faceBox);
+      if (compositeDataUrl && compositeDataUrl.startsWith('data:image/')) {
+        result.generatedImageUrl = compositeDataUrl;
+        result.userFaceDetected = true;
+      }
+    } catch (compositeError) {
+      console.warn('TryOn face compositing error, fallback to template:', compositeError);
+    }
 
     return NextResponse.json({ success: true, data: result });
   } catch (error: unknown) {

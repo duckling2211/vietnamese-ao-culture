@@ -52,6 +52,7 @@ export default function Task2TryOn({ apiKey }: Task2TryOnProps) {
   const [result, setResult] = useState<TryOnResult | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
+  const [activeDisplay, setActiveDisplay] = useState<'tryOn' | 'compare' | 'reference'>('tryOn');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -70,22 +71,24 @@ export default function Task2TryOn({ apiKey }: Task2TryOnProps) {
 
   // Direct safe download for generated HD portrait
   const handleDownload = async () => {
-    if (!result?.generatedImageUrl) return;
+    if (!result) return;
+    const targetUrl = activeDisplay === 'reference' ? result.referenceCostumeUrl : result.generatedImageUrl;
+    if (!targetUrl) return;
     try {
-      const response = await fetch(result.generatedImageUrl);
+      const response = await fetch(targetUrl);
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = blobUrl;
-      a.download = `heritage-${result.costume.id || 'costume'}.jpg`;
+      a.download = `heritage-${result.costume.id}-${activeDisplay}.jpg`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(blobUrl);
     } catch {
       const a = document.createElement('a');
-      a.href = result.generatedImageUrl;
-      a.download = `heritage-${result.costume.id || 'costume'}.jpg`;
+      a.href = targetUrl;
+      a.download = `heritage-${result.costume.id}-${activeDisplay}.jpg`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -517,42 +520,171 @@ export default function Task2TryOn({ apiKey }: Task2TryOnProps) {
 
             {!loading && result && (
               <div className="flex flex-col space-y-6">
-                {/* Before & After Comparison Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Original Image Card */}
-                  <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 border border-stone-200 dark:border-stone-800 shadow-sm flex flex-col">
-                    <span className="text-xs font-bold text-stone-500 dark:text-stone-400 mb-2 flex items-center space-x-1.5">
-                      <ImageIcon className="w-3.5 h-3.5" />
-                      <span>Ảnh gốc của bạn</span>
+                {/* Reference Status & Mode Switcher Bar */}
+                <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-2xl p-3 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-sm">
+                  <div className="flex items-center space-x-2 text-xs text-emerald-900 dark:text-emerald-200 font-semibold">
+                    <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                    <span>
+                      {result.userFaceDetected
+                        ? `AI đã lấy khuôn mặt từ ảnh của bạn làm tham chiếu và tạo thành công ảnh bạn mặc ${result.costume.name}`
+                        : `Ảnh mặc thử ${result.costume.name} đã được tạo thành công`}
                     </span>
-                    <div className="w-full h-80 rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800">
-                      <img 
-                        src={selectedImage || ''} 
-                        alt="Ảnh gốc" 
-                        className="w-full h-full object-cover object-top"
-                      />
-                    </div>
                   </div>
 
-                  {/* AI Generated Costume Portrait Card */}
-                  <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 border-2 border-emerald-500 dark:border-emerald-500/80 shadow-lg flex flex-col relative">
+                  <div className="flex items-center space-x-1 bg-stone-200/80 dark:bg-stone-800 p-1 rounded-xl text-xs font-semibold self-start md:self-auto">
+                    <button
+                      onClick={() => setActiveDisplay('tryOn')}
+                      className={`px-3 py-1 rounded-lg transition ${
+                        activeDisplay === 'tryOn'
+                          ? 'bg-emerald-600 text-white shadow-sm'
+                          : 'text-stone-700 dark:text-stone-300 hover:text-stone-900'
+                      }`}
+                    >
+                      Ảnh bạn mặc thử AI
+                    </button>
+                    <button
+                      onClick={() => setActiveDisplay('compare')}
+                      className={`px-3 py-1 rounded-lg transition ${
+                        activeDisplay === 'compare'
+                          ? 'bg-emerald-600 text-white shadow-sm'
+                          : 'text-stone-700 dark:text-stone-300 hover:text-stone-900'
+                      }`}
+                    >
+                      So sánh trước / sau
+                    </button>
+                    <button
+                      onClick={() => setActiveDisplay('reference')}
+                      className={`px-3 py-1 rounded-lg transition ${
+                        activeDisplay === 'reference'
+                          ? 'bg-emerald-600 text-white shadow-sm'
+                          : 'text-stone-700 dark:text-stone-300 hover:text-stone-900'
+                      }`}
+                    >
+                      Mẫu gốc cung đình
+                    </button>
+                  </div>
+                </div>
+
+                {/* Main Visual Display Based on Active View */}
+                {activeDisplay === 'compare' ? (
+                  /* Side-by-side view */
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Original Image Card */}
+                    <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 border border-stone-200 dark:border-stone-800 shadow-sm flex flex-col">
+                      <span className="text-xs font-bold text-stone-500 dark:text-stone-400 mb-2 flex items-center space-x-1.5">
+                        <ImageIcon className="w-3.5 h-3.5" />
+                        <span>1. Ảnh gốc của bạn (Dữ liệu tham chiếu)</span>
+                      </span>
+                      <div className="w-full h-80 rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800">
+                        <img 
+                          src={selectedImage || ''} 
+                          alt="Ảnh gốc" 
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </div>
+                    </div>
+
+                    {/* AI Try-On Result Card */}
+                    <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 border-2 border-emerald-500 shadow-md flex flex-col relative">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-extrabold text-emerald-700 dark:text-emerald-400 flex items-center space-x-1.5">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>2. Ảnh bạn mặc {result.costume.name}</span>
+                        </span>
+                        <button
+                          onClick={handleDownload}
+                          className="inline-flex items-center space-x-1 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition active:scale-95"
+                          title="Tải ảnh về máy"
+                        >
+                          <Download className="w-3 h-3" />
+                          <span>Tải ảnh HD</span>
+                        </button>
+                      </div>
+                      <div 
+                        onClick={() => setIsLightboxOpen(true)}
+                        className="w-full h-80 rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative group cursor-pointer"
+                        title="Nhấn để xem toàn màn hình"
+                      >
+                        <img 
+                          src={result.generatedImageUrl} 
+                          alt={result.costume.name} 
+                          className="w-full h-full object-cover object-top transition duration-300 group-hover:scale-105"
+                        />
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsLightboxOpen(true);
+                          }}
+                          className="absolute bottom-3 right-3 p-2 bg-black/60 hover:bg-black/80 text-white rounded-xl backdrop-blur transition shadow flex items-center space-x-1 text-xs"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Xem toàn màn hình</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : activeDisplay === 'reference' ? (
+                  /* Heritage Reference Stock Card */
+                  <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 border border-stone-200 dark:border-stone-800 shadow-sm flex flex-col relative">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-extrabold text-emerald-700 dark:text-emerald-400 flex items-center space-x-1.5">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>Ảnh Mặc {result.costume.name}</span>
+                      <span className="text-xs font-bold text-stone-600 dark:text-stone-300 flex items-center space-x-1.5">
+                        <Shirt className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Bản mẫu nguyên bản lịch sử: {result.costume.name}</span>
                       </span>
                       <button
                         onClick={handleDownload}
-                        className="inline-flex items-center space-x-1 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition active:scale-95"
-                        title="Tải ảnh về máy"
+                        className="inline-flex items-center space-x-1 px-2.5 py-1 bg-stone-700 hover:bg-stone-800 text-white rounded-lg text-xs font-semibold shadow-sm transition active:scale-95"
                       >
                         <Download className="w-3 h-3" />
-                        <span>Tải ảnh HD</span>
+                        <span>Tải ảnh mẫu</span>
                       </button>
                     </div>
                     <div 
                       onClick={() => setIsLightboxOpen(true)}
-                      className="w-full h-80 rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative group cursor-pointer"
+                      className="w-full h-96 rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative group cursor-pointer"
+                    >
+                      <img 
+                        src={result.referenceCostumeUrl} 
+                        alt={result.costume.name} 
+                        className="w-full h-full object-cover object-top transition duration-300 group-hover:scale-105"
+                      />
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsLightboxOpen(true);
+                        }}
+                        className="absolute bottom-3 right-3 p-2 bg-black/60 hover:bg-black/80 text-white rounded-xl backdrop-blur transition shadow flex items-center space-x-1 text-xs"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Xem toàn màn hình</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* Focused Primary AI Try-On Card */
+                  <div className="bg-white dark:bg-stone-900 rounded-3xl p-4 border-2 border-emerald-500 dark:border-emerald-500/80 shadow-lg flex flex-col relative">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <span className="text-xs font-extrabold text-emerald-700 dark:text-emerald-400 flex items-center space-x-1.5">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Chân Dung Bạn Mặc {result.costume.name} (AI Sinh Từ Ảnh Tham Chiếu)</span>
+                        </span>
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">
+                          Đã tự động căn chỉnh ngũ quan từ ảnh chân dung của bạn vào cổ áo {result.costume.collar_type}
+                        </p>
+                      </div>
+                      <button
+                        onClick={handleDownload}
+                        className="inline-flex items-center space-x-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-sm transition active:scale-95"
+                        title="Tải ảnh về máy"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>Tải ảnh bạn mặc HD</span>
+                      </button>
+                    </div>
+                    <div 
+                      onClick={() => setIsLightboxOpen(true)}
+                      className="w-full h-96 rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800 relative group cursor-pointer"
                       title="Nhấn để xem toàn màn hình"
                     >
                       <img 
@@ -572,7 +704,7 @@ export default function Task2TryOn({ apiKey }: Task2TryOnProps) {
                       </button>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {/* AI Stylist Commentary & Heritage Card */}
                 <div className="bg-gradient-to-br from-emerald-900/90 to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-emerald-500/30">
@@ -649,7 +781,7 @@ export default function Task2TryOn({ apiKey }: Task2TryOnProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <img 
-              src={result.generatedImageUrl} 
+              src={activeDisplay === 'reference' ? result.referenceCostumeUrl : result.generatedImageUrl} 
               alt={result.costume.name}
               className="max-h-[80vh] w-auto object-contain rounded-2xl"
             />
